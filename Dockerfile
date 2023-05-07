@@ -9,12 +9,13 @@ ENV WORKING_DIR="/usr/app"
 
 WORKDIR ${WORKING_DIR}
 
-# COPY package*.json ./
+COPY tic-tac-toe/package*.json ./
 
-# RUN npm install
+RUN cd tic-tac-toe
+RUN npm install
 
 COPY . .
 
 # EXPOSE ${PORT}
 
-CMD ["/bin/sh"]
+CMD ["npm run dev"]
