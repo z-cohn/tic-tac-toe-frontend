@@ -5,16 +5,17 @@ RUN apk upgrade
 RUN apk add git
 
 ENV WORKING_DIR="/usr/app"
-# ENV PORT=4001
+ENV PORT=5173
 
 WORKDIR ${WORKING_DIR}
+RUN mkdir "${WORKING_DIR}/tic-tac-toe"
 
-# COPY package*.json ./
+COPY tic-tac-toe/package*.json "tic-tac-toe"
 
-# RUN npm install
+RUN cd tic-tac-toe && npm install
 
-COPY . .
+COPY . ${WORKING_DIR}
 
-# EXPOSE ${PORT}
+EXPOSE ${PORT}
 
-CMD ["/bin/sh"]
+CMD ["npm", "run", "dev", "--prefix", "/usr/app/tic-tac-toe"]
