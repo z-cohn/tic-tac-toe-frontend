@@ -2,12 +2,14 @@ import { useRef, useState, useEffect } from "react";
 import { faCheck, faTimeline, faInfoCircle, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Ref } from "react";
+import axios from './api/axios'
 
 const EMAIL_REGEX = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 /* Must start with letter, be followed by 4-20 of: {letter, digit, hyphen, underscore} */
 const USER_REGEX = /^[A-z][A-z0-9-_]{3,20}$/;
 /* Must contain uppercase, lowercase, digit, and special symbol, and be between 8-50 chars */
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*]).{8,50}$/;
+const REGISTER_URL = '/register';
 
 const Register = () => {
     /* useRef is similar to state (persists between renders) but change in ref does not cause re-rendering */
@@ -71,7 +73,36 @@ const Register = () => {
                 return;
         }
 
-        setSuccess(true);
+        try {
+            const response = await axios.post(REGISTER_URL,
+                JSON.stringify({ email: email, username: user, password: password }),
+                {
+                    headers: { 'Content-Type': 'application/json' },
+                    withCredentials: true
+                });
+
+            console.log(response.data);
+            setSuccess(true);
+
+            setEmail('');
+            setUser('');
+            setPassword('');
+            setMatchPassword('');
+        } catch (err) {
+            if (!err?.response) {
+                setErrMsg('No response from server');
+            }
+            else if (err.response?.status === 403) {
+                setErrMsg('Email or Username not available');
+            }
+            else {
+                console.log(err.response)
+                setErrMsg(err.response.data.message);
+            }
+
+
+            errRef.current.focus()
+        }
     }
 
   return (
