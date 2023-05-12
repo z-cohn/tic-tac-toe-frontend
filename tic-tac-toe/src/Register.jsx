@@ -171,6 +171,13 @@ const Register = () => {
                 Sign Up
             </button>
         </form>
+        <p>
+            Already registered?<br />
+            <span className="line">
+                {/* TODO: put router link here! */}
+                <a href="#">Sign In</a>
+            </span>
+        </p>
     </section>
   )
 }
