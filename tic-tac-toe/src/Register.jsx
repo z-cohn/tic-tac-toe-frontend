@@ -42,8 +42,6 @@ const Register = () => {
         /* Check whether given password meets given regex reqs, update validPassword accordingly */
         const result = PWD_REGEX.test(password);
         setValidPassword(result);
-        console.log(result);
-        console.log(password);
         /* Check if password and verify-password match, update accordingly */
         const match = (password === matchPassword);
         setValidMatch(match);
@@ -69,11 +67,11 @@ const Register = () => {
              autoComplete="off"
              onChange={(event) => setUser(event.target.value)}
              required
-             aria-describedby="uidnote"
+             aria-describedby="username_note"
              onFocus={() => setUserFocus(true)}
              onBlur={() => setUserFocus(false)}
             />
-            <p id="uidnote" className={(userFocus && user && !validName) ? "instructions" : "hide"}>
+            <p id="username_note" className={(userFocus && user && !validName) ? "instructions" : "hide"}>
                 <FontAwesomeIcon icon={faInfoCircle} />
                 Must be between 4-20 characters.<br />
                 Must begin with a letter.<br />
@@ -87,20 +85,47 @@ const Register = () => {
                     <FontAwesomeIcon icon={faTimes} className={validPassword || !password ? "hide" : "invalid"} />
             </label>
             <input
-                type="text"
+                type="password"
                 id="password"
                 onChange={(event) => setPassword(event.target.value)}
+                value={password}
                 required
-                aria-describedby="passwordnote"
+                aria-describedby="password_note"
                 onFocus={() => setPasswordFocus(true)}
                 onBlur={() => setPasswordFocus(false)}
             />
-            <p id="passwordnote" className={(passwordFocus && !validPassword) ? "instructions" : "hide"}>
+            <p id="password_note" className={(passwordFocus && !validPassword) ? "instructions" : "hide"}>
                 <FontAwesomeIcon icon={faInfoCircle} />
                 8 to 50 characters.<br />
                 Must include uppercase letter, lowercase letter, a number, and a special character.<br />
                 Allowed special characters: !@#$%^&*
             </p>
+
+
+            <label htmlFor="confirm_password">
+            Confirm Password:
+                <FontAwesomeIcon icon={faCheck} className={(validMatch && matchPassword) ? "valid" : "hide"} />
+                <FontAwesomeIcon icon={faTimes} className={(validMatch || !matchPassword) ? "hide" : "invalid"} />
+            </label>
+            <input
+                type="password"
+                id="confirm_password"
+                onChange={(e) => setMatchPassword(e.target.value)}
+                value={matchPassword}
+                required
+                aria-describedby="password_confirm_note"
+                onFocus={() => setMatchFocus(true)}
+                onBlur={() => setMatchFocus(false)}
+            />
+            <p id="password_confirm_note" className={(matchFocus && !validMatch) ? "instructions" : "hide"}>
+                    <FontAwesomeIcon icon={faInfoCircle} />
+                    Must match the first password input field.
+            </p>
+
+
+            <button disabled={(!validName || !validPassword || !validMatch) ? true: false}>
+                Sign Up
+            </button>
         </form>
     </section>
   )
