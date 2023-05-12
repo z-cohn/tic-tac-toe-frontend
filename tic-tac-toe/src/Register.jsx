@@ -70,9 +70,21 @@ const Register = () => {
                 setErrMsg("Invalid entry");
                 return;
         }
+
+        setSuccess(true);
     }
 
   return (
+    <>
+    {success ? (
+            <section>
+                <h1>Success!</h1>
+                <p>
+                    {/* Replace with react router link! */}
+                    <a href="#">Sign in</a>
+                </p>
+            </section>
+        ) : (
     <section>
         <p ref={errRef} className={errMsg ? "errmsg" : "hide"}>{errMsg}</p>
 
@@ -179,6 +191,8 @@ const Register = () => {
             </span>
         </p>
     </section>
+    )}
+  </>
   )
 }
 
