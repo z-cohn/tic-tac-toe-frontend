@@ -51,11 +51,22 @@ const Register = () => {
         setErrMsg('');
     }, [user, password, matchPassword]) /* Clear the Error Msg any time the user makes any change */
 
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        /* In case button was enabled with a JS hack */
+        const valid_username = USER_REGEX.test(user);
+        const valid_password = PWD_REGEX.test(password);
+        if (!valid_username || !valid_password) {
+                setErrMsg("Invalid entry");
+                return;
+        }
+    }
+
   return (
     <section>
         <p ref={errRef} className={errMsg ? "errmsg" : "hide"}>{errMsg}</p>
         <h1>Register</h1>
-        <form>
+        <form onSubmit={handleSubmit}>
             <label htmlFor="username">
                 Username:
                     <FontAwesomeIcon icon={faCheck} className={validName ? "valid" : "hide"} />
