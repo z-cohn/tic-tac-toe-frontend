@@ -3,6 +3,7 @@ import { faCheck, faTimeline, faInfoCircle, faTimes } from "@fortawesome/free-so
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Ref } from "react";
 
+const EMAIL_REGEX = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 /* Must start with letter, be followed by 4-20 of: {letter, digit, hyphen, underscore} */
 const USER_REGEX = /^[A-z][A-z0-9-_]{3,20}$/;
 /* Must contain uppercase, lowercase, digit, and special symbol, and be between 8-50 chars */
@@ -10,12 +11,16 @@ const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*]).{8,50}$/;
 
 const Register = () => {
     /* useRef is similar to state (persists between renders) but change in ref does not cause re-rendering */
-    const userRef = useRef();
+    const emailRef = useRef();
     const errRef = useRef();
 
     const [user, setUser] = useState('');
     const [validName, setValidName] = useState(false);
     const [userFocus, setUserFocus] = useState(false);
+
+    const [email, setEmail] = useState('');
+    const [validEmail, setValidEmail] = useState(false);
+    const [emailFocus, setEmailFocus] = useState(false);
 
     const [password, setPassword] = useState('');
     const [validPassword, setValidPassword] = useState(false);
@@ -29,7 +34,7 @@ const Register = () => {
     const [success, setSuccess] = useState(false);
 
     useEffect(() => {
-        userRef.current.focus();
+        emailRef.current.focus();
     }, []) /* This code runs once, upon loading page */
 
     useEffect(() => {
@@ -37,6 +42,11 @@ const Register = () => {
         const result = USER_REGEX.test(user);
         setValidName(result);
     }, [user]) /* This code is run anytime the user changes */
+
+    useEffect(() => {
+        /* Check whether email is valid and update validEmail accordingly */
+        setValidEmail(EMAIL_REGEX.test(email));
+    }, [email])
 
     useEffect(() => {
         /* Check whether given password meets given regex reqs, update validPassword accordingly */
@@ -65,8 +75,31 @@ const Register = () => {
   return (
     <section>
         <p ref={errRef} className={errMsg ? "errmsg" : "hide"}>{errMsg}</p>
+
         <h1>Register</h1>
+
         <form onSubmit={handleSubmit}>
+
+        <label htmlFor="email">
+                Email:
+                    <FontAwesomeIcon icon={faCheck} className={validEmail ? "valid" : "hide"} />
+                    <FontAwesomeIcon icon={faTimes} className={(validEmail || !email) ? "hide" : "invalid"} />
+            </label>
+            <input type="text"
+             id="email"
+             ref={emailRef}
+             autoComplete="off"
+             onChange={(event) => setEmail(event.target.value)}
+             required
+             aria-describedby="email_note"
+             onFocus={() => setEmailFocus(true)}
+             onBlur={() => setEmailFocus(false)}
+            />
+            <p id="email_note" className={(emailFocus && email && !validEmail) ? "instructions" : "hide"}>
+                <FontAwesomeIcon icon={faInfoCircle} />
+                Must be valid email.
+            </p>
+
             <label htmlFor="username">
                 Username:
                     <FontAwesomeIcon icon={faCheck} className={validName ? "valid" : "hide"} />
@@ -74,7 +107,7 @@ const Register = () => {
             </label>
             <input type="text"
              id="username"
-             ref={userRef}
+             value={user}
              autoComplete="off"
              onChange={(event) => setUser(event.target.value)}
              required
@@ -134,7 +167,7 @@ const Register = () => {
             </p>
 
 
-            <button disabled={(!validName || !validPassword || !validMatch) ? true: false}>
+            <button disabled={(!validEmail || !validName || !validPassword || !validMatch) ? true: false}>
                 Sign Up
             </button>
         </form>
