@@ -1,6 +1,7 @@
 import Register from './pages//Register'
 import { Link, Route, Routes } from 'react-router-dom'
 import Home from './pages/Home'
+import Login from './pages/Login'
 
 function App() {
 
@@ -21,8 +22,9 @@ function App() {
       </nav>
       <Routes>
         <Route  path="/" element={<Home />} />
-        <Route path="/register" element={<Register />}/>
-        <Route path="*" element={<h1>Page Not Found</h1>}></Route>
+        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="*" element={<h1>Page Not Found</h1>} />
       </Routes>
     </>
   )
