@@ -2,8 +2,8 @@ import { useRef, useState, useEffect } from "react";
 import { faCheck, faTimeline, faInfoCircle, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Ref } from "react";
-import { Link } from 'react-router-dom'
-import axios from '../api/axios'
+import { Link } from 'react-router-dom';
+import axios from '../api/axios';
 
 const EMAIL_REGEX = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 /* Must start with letter, be followed by 4-20 of: {letter, digit, hyphen, underscore} */
@@ -112,7 +112,6 @@ const Register = () => {
             <section>
                 <h1>Success!</h1>
                 <p>
-                    {/* Replace with react router link! */}
                     <Link to="/login">Sign in</Link>
                 </p>
             </section>
@@ -218,7 +217,6 @@ const Register = () => {
         <p>
             Already registered?<br />
             <span className="line">
-                {/* TODO: put router link here! */}
                 <Link to="/login">Sign In</Link>
             </span>
         </p>
