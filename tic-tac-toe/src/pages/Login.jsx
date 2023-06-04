@@ -1,19 +1,21 @@
 import { useRef, useState, useEffect, useContext } from 'react';
-import AuthContext from '../context/AuthProvider';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useLocation  } from 'react-router-dom';
 import axios from '../api/axios';
-import { faSortAlphaUp } from '@fortawesome/free-solid-svg-icons';
+import useAuth from '../hooks/useAuth';
 const LOGIN_URL = '/login';
 
 function Login() {
-    const { setAuth } = useContext(AuthContext);
+    const { auth, setAuth } = useAuth();
+
     const emailRef = useRef();
     const errRef = useRef();
+    const navigate = useNavigate();
+    const location = useLocation();
+    const from = location.state?.from?.pathname || "/";
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [errMsg, setErrMsg] = useState('');
-    const [success, setSuccess] = useState('');
 
     useEffect(() => {
         emailRef.current.focus();
@@ -34,11 +36,15 @@ function Login() {
                                                     withCredentials: true
                                                 });
             const accessToken = response?.data?.accessToken;
-            const roles = response?.data?.roles;
-            setAuth({ email, password, roles, accessToken });
+            const refreshToken = response?.data?.refreshToken;
+            // const.roles = response?.data?.roles;
+            // console.log("access token: " + accessToken)
+            setAuth({ email, password, accessToken, refreshToken });
+            // console.log(auth)
             setEmail('');
             setPassword('');
-            setSuccess(true);
+
+            navigate(from, { replace: true });
         } catch (err) {
             if (!err?.response) {
                 setErrMsg("No response from server");
@@ -53,55 +59,43 @@ function Login() {
     }
 
     return (
-        <>
-            {success ? (
-                <section>
-                    <h1>You are now logged in!</h1>
-                    <br />
-                    <p>
-                        <Link to="/protected">View protected route</Link>
-                    </p>
-                </section>
-            ) : (
-                 <section>
-                     <p ret={errRef} className={errMsg ? "errmsg" : "hide"}>{errMsg}</p>
 
-                     <h1>Sign In</h1>
+        <section>
+            <p ret={errRef} className={errMsg ? "errmsg" : "hide"}>{errMsg}</p>
 
-                     <form onSubmit={handleSubmit}>
-                         <label htmlFor="email">Email</label>
-                         <input
-                             type="email"
-                             id="email"
-                             ref={emailRef}
-                             autoComplete='off'
-                             onChange={(event) => setEmail(event.target.value)}
-                             value={email}
-                             required
-                         />
+            <h1>Sign In</h1>
 
-                         <label htmlFor="password">Password</label>
-                         <input
-                             type="password"
-                             id="password"
-                             onChange={(event) => setPassword(event.target.value)}
-                             value={password}
-                             required
-                         />
+            <form onSubmit={handleSubmit}>
+                <label htmlFor="email">Email</label>
+                <input
+                    type="email"
+                    id="email"
+                    ref={emailRef}
+                    autoComplete='off'
+                    onChange={(event) => setEmail(event.target.value)}
+                    value={email}
+                    required
+                />
 
-                         <button>Sign In</button>
-                    </form>
+                <label htmlFor="password">Password</label>
+                <input
+                    type="password"
+                    id="password"
+                    onChange={(event) => setPassword(event.target.value)}
+                    value={password}
+                    required
+                />
 
-                         <p>
-                             Not yet registered?<br />
-                             <span className='line'>
-                                 <Link to="/register">Register</Link>
-                             </span>
-                         </p>
-                 </section>
-                )
-            }
-        </>
+                <button>Sign In</button>
+        </form>
+
+                <p>
+                    Not yet registered?<br />
+                    <span className='line'>
+                        <Link to="/register">Register</Link>
+                    </span>
+                </p>
+        </section>
     )
 }
 
