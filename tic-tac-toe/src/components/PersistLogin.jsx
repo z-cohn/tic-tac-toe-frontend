@@ -2,6 +2,7 @@ import { Outlet } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import useRefreshToken from '../hooks/useRefreshToken';
 import useAuth from '../hooks/useAuth';
+import { Container, Card, Button } from 'react-bootstrap';
 
 const PersistLogin = () => {
     const [isLoading, setIsLoading] = useState(true);
@@ -29,7 +30,15 @@ const PersistLogin = () => {
 
     return (
         <>
-            { isLoading ? <p>Loading...</p> : <Outlet /> }
+            { isLoading ?
+                <div>
+                    <p>Must be logged in!</p>
+
+                    <Button variant="primary" href='/login' className="me-3">
+                        Sign In
+                    </Button>
+                </div>
+            : <Outlet /> }
         </>
     )
 }
