@@ -38,9 +38,7 @@ function Login() {
             const accessToken = response?.data?.accessToken;
             const refreshToken = response?.data?.refreshToken;
             // const.roles = response?.data?.roles;
-            // console.log("access token: " + accessToken)
             setAuth({ email, password, accessToken, refreshToken });
-            // console.log(auth)
             setEmail('');
             setPassword('');
 
