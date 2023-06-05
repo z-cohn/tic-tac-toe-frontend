@@ -1,6 +1,16 @@
 import { Container, Card, Button } from 'react-bootstrap';
+import { useNavigate, Link } from 'react-router-dom';
+import useLogout from '../hooks/useLogout';
 
 const Hero = () => {
+    const navigate = useNavigate();
+    const logout = useLogout();
+
+    const signOut = async () => {
+        await logout();
+        navigate('/links');
+    }
+
     return (
         <div className="py-5">
             <Container className='d-flex justify-content-center'>
@@ -16,6 +26,9 @@ const Hero = () => {
                         </Button>
                         <Button variant="secondary" href='/register' className="me-3">
                             Register
+                        </Button>
+                        <Button variant="secondary" onClick={signOut} className="me-3">
+                            Log Out
                         </Button>
                     </div>
                 </Card>
