@@ -35,10 +35,10 @@ function Login() {
                                                     headers: { 'Content-Type': 'application/json' },
                                                     withCredentials: true
                                                 });
+
             const accessToken = response?.data?.accessToken;
-            const refreshToken = response?.data?.refreshToken;
             // const.roles = response?.data?.roles;
-            setAuth({ email, password, accessToken, refreshToken });
+            setAuth({ email, password, accessToken });
             setEmail('');
             setPassword('');
 
