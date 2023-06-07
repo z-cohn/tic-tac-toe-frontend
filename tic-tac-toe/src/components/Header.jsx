@@ -1,10 +1,12 @@
 import { Nav, Navbar, Container } from 'react-bootstrap';
 import useLogout from '../hooks/useLogout';
 import { useNavigate } from 'react-router-dom';
+import useAuth from '../hooks/useAuth';
 
 const Header = () => {
     const navigate = useNavigate();
     const logout = useLogout();
+    const { auth } = useAuth();
 
     const handleLogoutClick = async () => {
         await logout();
@@ -18,12 +20,13 @@ const Header = () => {
                     <Navbar.Brand href='/'>Tic-tac-toe</Navbar.Brand>
                     <Navbar.Toggle aria-controls='basic-navbar-nav' />
                     <Navbar.Collapse id='basic-navbar-nav'>
+                        { auth?.accessToken ?
                         <Nav className='ms-auto'>
-                            <Nav.Link href='/login'>
-                                Sign In
+                        <Nav.Link href='/leaderboard'>
+                                Leaderboard
                             </Nav.Link>
-                            <Nav.Link href='/register'>
-                                Register
+                            <Nav.Link href='/user'>
+                                User Info
                             </Nav.Link>
                             <Nav.Link href='/links'>
                                 Links
@@ -32,6 +35,20 @@ const Header = () => {
                                 Log Out
                             </Nav.Link>
                         </Nav>
+
+                        :
+                        <Nav className='ms-auto'>
+                            <Nav.Link href='/leaderboard'>
+                                Leaderboard
+                            </Nav.Link>
+                            <Nav.Link href='/login'>
+                                Log In
+                            </Nav.Link>
+                            <Nav.Link href='/register'>
+                                Sign Up
+                            </Nav.Link>
+                        </Nav> }
+
                     </Navbar.Collapse>
                 </Container>
             </Navbar>

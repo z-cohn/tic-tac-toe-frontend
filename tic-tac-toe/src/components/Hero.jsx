@@ -1,14 +1,16 @@
 import { Container, Card, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import useLogout from '../hooks/useLogout';
+import useAuth from '../hooks/useAuth';
 
 const Hero = () => {
     const navigate = useNavigate();
     const logout = useLogout();
+    const { auth } = useAuth();
 
     const signOut = async () => {
         await logout();
-        navigate('/links');
+        navigate('/');
     }
 
     return (
@@ -21,15 +23,21 @@ const Hero = () => {
                         It also uses the React Bootstrap library.
                     </p>
                     <div className="d-flex">
-                        <Button variant="primary" href='/login' className="me-3">
-                            Sign In
-                        </Button>
-                        <Button variant="secondary" href='/register' className="me-3">
-                            Register
-                        </Button>
-                        <Button variant="secondary" onClick={signOut} className="me-3">
-                            Log Out
-                        </Button>
+                        {
+                            !auth?.accessToken ?
+                        <>
+                            <Button variant="primary" href='/login' className="me-3">
+                                Sign In
+                            </Button>
+                            <Button variant="secondary" href='/register' className="me-3">
+                                Register
+                            </Button>
+                        </>
+                        :
+                            <Button variant="primary" onClick={signOut} className="me-3">
+                                Log Out
+                            </Button>
+                    }
                     </div>
                 </Card>
             </Container>

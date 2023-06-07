@@ -20,14 +20,15 @@ function App() {
         <Route path="/" element={<Layout />}>
 
           {/* Public routes */}
-          <Route path="/" element={<Home />} />
-          <Route path="login" element={<Login />} />
-          <Route path="register" element={<Register />} />
-          <Route path="links" element={<Links />} />
-          <Route path="unauthorized" element={<Unauthorized />} />
+          <Route element={<PersistLogin />}>
+            <Route path="/" element={<Home />} />
+            <Route path="login" element={<Login />} />
+            <Route path="register" element={<Register />} />
+            <Route path="links" element={<Links />} />
+            <Route path="unauthorized" element={<Unauthorized />} />
 
           { /* Protected routes */ }
-          <Route element={<PersistLogin />}>
+
             <Route element={<RequireAuth />}>
               <Route path="/user" element={<User />} />
               <Route path="/admin" element={<Admin />} />
