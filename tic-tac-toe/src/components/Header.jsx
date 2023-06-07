@@ -1,6 +1,16 @@
 import { Nav, Navbar, Container } from 'react-bootstrap';
+import useLogout from '../hooks/useLogout';
+import { useNavigate } from 'react-router-dom';
 
 const Header = () => {
+    const navigate = useNavigate();
+    const logout = useLogout();
+
+    const handleLogoutClick = async () => {
+        await logout();
+        navigate('/');
+    }
+
     return (
         <header>
             <Navbar bg='dark' variant='dark' expand='lg' collapseOnSelect >
@@ -17,6 +27,9 @@ const Header = () => {
                             </Nav.Link>
                             <Nav.Link href='/links'>
                                 Links
+                            </Nav.Link>
+                            <Nav.Link onClick={() => handleLogoutClick()}>
+                                Log Out
                             </Nav.Link>
                         </Nav>
                     </Navbar.Collapse>

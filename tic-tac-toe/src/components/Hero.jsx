@@ -1,5 +1,5 @@
 import { Container, Card, Button } from 'react-bootstrap';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import useLogout from '../hooks/useLogout';
 
 const Hero = () => {
