@@ -6,6 +6,7 @@ import Login from './pages/Login'
 import Links from './pages/Links'
 import User from './pages/User'
 import Admin from './pages/Admin'
+import Play from './pages/Play'
 import Unauthorized from './pages/Unauthorized'
 import Layout from './components/Layout'
 import RequireAuth from './components/RequireAuth'
@@ -32,6 +33,7 @@ function App() {
             <Route element={<RequireAuth />}>
               <Route path="/user" element={<User />} />
               <Route path="/admin" element={<Admin />} />
+              <Route path="/play" element={<Play />} />
             </Route>
           </Route>
         </Route >
