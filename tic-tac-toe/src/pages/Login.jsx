@@ -25,6 +25,10 @@ function Login() {
         setErrMsg('');
     }, [email, password]);
 
+    useEffect(() => {
+        console.log(JSON.stringify(auth))
+    }, [auth]);
+
     const handleSubmit = async(event) => {
         event.preventDefault();
 
@@ -37,8 +41,10 @@ function Login() {
                                                 });
 
             const accessToken = response?.data?.accessToken;
-            // const.roles = response?.data?.roles;
-            setAuth({ email, password, accessToken });
+            const roles = response?.data?.roles;
+
+            setAuth({ email, accessToken, roles });
+
             setEmail('');
             setPassword('');
 

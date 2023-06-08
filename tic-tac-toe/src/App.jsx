@@ -30,7 +30,7 @@ function App() {
 
           { /* Protected routes */ }
 
-            <Route element={<RequireAuth />}>
+            <Route element={<RequireAuth allowedRoles={ ['user'] } />}>
               <Route path="/user" element={<User />} />
               <Route path="/admin" element={<Admin />} />
               <Route path="/play" element={<Play />} />
