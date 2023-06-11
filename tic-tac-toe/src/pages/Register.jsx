@@ -82,7 +82,6 @@ const Register = () => {
                     withCredentials: true
                 });
 
-            console.log(response.data);
             setSuccess(true);
 
             setEmail('');

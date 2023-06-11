@@ -5,7 +5,7 @@ import useAuth from '../hooks/useAuth';
 const LOGIN_URL = '/login';
 
 function Login() {
-    const { auth, setAuth } = useAuth();
+    const { setAuth } = useAuth();
 
     const emailRef = useRef();
     const errRef = useRef();
@@ -24,10 +24,6 @@ function Login() {
     useEffect(() => {
         setErrMsg('');
     }, [email, password]);
-
-    useEffect(() => {
-        console.log(JSON.stringify(auth))
-    }, [auth]);
 
     const handleSubmit = async(event) => {
         event.preventDefault();
