@@ -7,6 +7,7 @@ import Links from './pages/Links'
 import User from './pages/User'
 import Admin from './pages/Admin'
 import Play from './pages/Play'
+import Leaderboard from './pages/Leaderboard'
 import Unauthorized from './pages/Unauthorized'
 import Layout from './components/Layout'
 import RequireAuth from './components/RequireAuth'
@@ -26,6 +27,7 @@ function App() {
             <Route path="login" element={<Login />} />
             <Route path="register" element={<Register />} />
             <Route path="links" element={<Links />} />
+            <Route path="leaderboard" element={<Leaderboard />} />
             <Route path="unauthorized" element={<Unauthorized />} />
 
           { /* Protected routes */ }
